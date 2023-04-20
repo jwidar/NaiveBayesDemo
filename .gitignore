@@ -1,9 +1,7 @@
 **/.vs
-**/packages
 **/obj
 **/bin
 
 **/*.user
 **/*.ncrunchsolution
 **/*.ncrunchproject
-**/*BuildOutput

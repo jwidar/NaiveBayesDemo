@@ -124,9 +124,10 @@ public class Graph : Control
 		{
 			_ = sb.Append($"PointerLocation: {this.PointerLocation?.X}, {this.PointerLocation?.Y}");
 		}
+
 		if (this.CategorizeMode)
 		{
-			_ = sb.Append($"\r\nCategorize");
+			_ = sb.Append($"\r\nCategorize (Left: Foo, Right: Bar, Middle: None)");
 		}
 
 		e.Graphics.DrawString(sb.ToString(), this.Font, Brushes.Black, 3, 3);
@@ -149,7 +150,8 @@ public class Graph : Control
 
 	protected override void OnInvalidated(InvalidateEventArgs e)
 	{
-		this.CategorizeMode = (this.Modifiers & Keys.Control) != Keys.None;
+		this.CategorizeMode = (this.Modifiers & Keys.Shift) != Keys.None;
+
 		base.OnInvalidated(e);
 	}
 
@@ -167,32 +169,40 @@ public class Graph : Control
 	protected override void OnMouseDown(MouseEventArgs e)
 	{
 		this.Categorize(e);
-		this.AddPoint(e);
 
 		base.OnMouseDown(e);
 
 		this.Invalidate();
 	}
 
-	private void AddPoint(MouseEventArgs e)
-	{
-		if (e.Button == MouseButtons.Left && this.PointerLocation.HasValue && !this.CategorizeMode)
-		{
-			this.Form1.AddAndCategorizeDataPoint(this.ToDataPoint(this.PointerLocation.Value));
-			this.refreshList = true;
-		}
-	}
-
 	private void Categorize(MouseEventArgs e)
 	{
-		if (e.Button == MouseButtons.Left && this.PointerLocation.HasValue && this.CategorizeMode)
+		if (!this.PointerLocation.HasValue)
 		{
-			this.Form1.CategorizeNear(this.ToDataPoint(this.PointerLocation.Value), Category.Foo);
-			this.refreshList = true;
+			return;
 		}
-		if (e.Button == MouseButtons.Right && this.PointerLocation.HasValue && this.CategorizeMode)
+
+		if (this.CategorizeMode)
 		{
-			this.Form1.CategorizeNear(this.ToDataPoint(this.PointerLocation.Value), Category.Bar);
+			if (e.Button == MouseButtons.Left)
+			{
+				this.Form1.CategorizeNear(this.ToDataPoint(this.PointerLocation.Value), Category.Foo);
+				this.refreshList = true;
+			}
+			else if (e.Button == MouseButtons.Right)
+			{
+				this.Form1.CategorizeNear(this.ToDataPoint(this.PointerLocation.Value), Category.Bar);
+				this.refreshList = true;
+			}
+			else if (e.Button == MouseButtons.Middle)
+			{
+				this.Form1.CategorizeNear(this.ToDataPoint(this.PointerLocation.Value), Category.None);
+				this.refreshList = true;
+			}
+		}
+		else if (e.Button == MouseButtons.Left)
+		{
+			this.Form1.AddAndCategorizeDataPoint(this.ToDataPoint(this.PointerLocation.Value));
 			this.refreshList = true;
 		}
 	}
@@ -211,31 +221,10 @@ public class Graph : Control
 	public DataPoint ToDataPoint(PointF point)
 	{
 		return new DataPoint { X = point.X, Y = point.Y };
-
-		//var fractionX = (point.X - this.ClientRectangle.Left) / this.ClientRectangle.Width;
-		//var fractionY = (point.Y - this.ClientRectangle.Top) / this.ClientRectangle.Height;
-		//var bounds = this.DataPoints.Bounds;
-
-		//var result = new DataPoint
-		//{
-		//    X = bounds.Width * fractionX + bounds.MinX,
-		//    Y = bounds.Height * fractionY + bounds.MinY,
-		//};
-
-		//return result;
 	}
 
 	public PointF FromDataPoint(DataPoint dataPoint)
 	{
 		return new PointF { X = dataPoint.X, Y = dataPoint.Y };
-
-		//var bounds = this.DataPoints.Bounds;
-		//var fractionX = (dataPoint.X - bounds.MinX) / bounds.Width;
-		//var fractionY = (dataPoint.Y - bounds.MinY) / bounds.Height;
-
-		//return new PointF(
-		//    this.ClientRectangle.Width * fractionX + this.ClientRectangle.Left,
-		//    this.ClientRectangle.Height * fractionY + this.ClientRectangle.Top
-		//);
 	}
 }

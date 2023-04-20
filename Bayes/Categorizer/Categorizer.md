@@ -1,3 +1,6 @@
+
+https://medium.com/@omairaasim/machine-learning-project-14-naive-bayes-classifier-step-by-step-a1f4a5e5f834
+
 Probability of "classification" given "features".
 
 X: observations with features similar to an incoming observation 

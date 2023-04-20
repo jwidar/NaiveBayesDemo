@@ -22,6 +22,7 @@ internal class NaiveBayeisanCategorizer<TObservation, TCategory>
 			.MaxBy(x => x.PosteriorProbability)!;
 
 		newObservation.Category = winner.PosteriorProbability == -1 ? default! : winner.Category;
+		newObservation.Probability = Math.Abs(winner.PosteriorProbability);
 	}
 
 }

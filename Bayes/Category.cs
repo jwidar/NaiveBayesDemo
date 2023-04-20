@@ -1,9 +1,8 @@
-﻿namespace Bayes
+﻿namespace Bayes;
+
+public enum Category
 {
-	public enum Category
-	{
-		None = 0,
-		Foo = 1,
-		Bar = 2
-	}
+	None = 0,
+	Foo = 1,
+	Bar = 2
 }

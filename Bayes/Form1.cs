@@ -26,6 +26,8 @@ public partial class Form1 : Form
 		this.RandomizeALotOfPoints();
 		this.graph1.Form1 = this;
 		this.timer.Tick += this.Timer_Tick;
+
+		this.SetButtonText();
 	}
 
 	private bool IsSimilar(DataPoint newObservation, DataPoint existingObservation)
@@ -111,7 +113,23 @@ public partial class Form1 : Form
 	protected override void OnKeyDown(KeyEventArgs e)
 	{
 		this.graph1.Modifiers = e.Modifiers;
+
+		switch (e.KeyCode)
+		{
+			case Keys.Space:
+				this.timer.Enabled = !this.timer.Enabled;
+				this.SetButtonText();
+				e.Handled = true;
+				break;
+
+			case Keys.Escape:
+				this.DataPoints = new List<DataPoint>();
+				e.Handled = true;
+				break;
+		}
+
 		base.OnKeyDown(e);
+
 
 		this.graph1.Invalidate();
 	}
@@ -139,7 +157,17 @@ public partial class Form1 : Form
 	private void button1_Click(object sender, EventArgs e)
 	{
 		this.timer.Enabled = !this.timer.Enabled;
+
+		this.SetButtonText();
 	}
+
+	private void SetButtonText()
+	{
+		this.button1.Text = this.timer.Enabled
+			? "Stop"
+			: "Start";
+	}
+
 	private void Timer_Tick(object? sender, EventArgs e)
 	{
 		this.RandomizeALotOfPoints();

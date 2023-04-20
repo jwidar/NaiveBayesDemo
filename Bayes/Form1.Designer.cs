@@ -77,7 +77,6 @@
 			this.graph1.Form1 = null;
 			this.graph1.Location = new Point(0, 0);
 			this.graph1.Name = "graph1";
-			this.graph1.Padding = new Padding(0, 40, 0, 0);
 			this.graph1.Size = new Size(600, 450);
 			this.graph1.TabIndex = 1;
 			this.graph1.Text = "graph1";
@@ -130,7 +129,7 @@
 			this.Controls.Add(this.panel1);
 			this.KeyPreview = true;
 			this.Name = "Form1";
-			this.Text = "2";
+			this.Text = "Naive Bayesian Categorization Demo";
 			this.panel1.ResumeLayout(false);
 			this.panel3.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
