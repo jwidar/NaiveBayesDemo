@@ -124,6 +124,7 @@ public partial class Form1 : Form
 
 			case Keys.Escape:
 				this.DataPoints = new List<DataPoint>();
+				this.RefreshList();
 				e.Handled = true;
 				break;
 		}

@@ -20,3 +20,7 @@ Keys:
 - Space, start/stop spraying ovservations over the graph.
 - Escape, delete all observations
 
+
+Example:
+
+![img](./demo.gif)
